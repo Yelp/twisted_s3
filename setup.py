@@ -9,6 +9,7 @@ base_dir = os.path.dirname(__file__)
 setup(
     name='twisted_s3',
     packages=['twisted_s3'],
+    description=['Asynchronous HTTP client for interacting with Amazon S3'],
     install_requires=[
         'fido >= 2.1.0',
         'six',

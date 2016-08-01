@@ -5,3 +5,5 @@
 .coverage
 .tox/*
 venv/*
+build/*
+dist/*

@@ -15,11 +15,11 @@ import hashlib
 import hmac
 import six
 if six.PY3:
-    from urllib.parse import quote  # pragma: no cover (coverage runs on py27)
+    from urllib.parse import quote  # pragma: no cover
     from urllib.parse import quote_plus  # pragma: no cover
 else:
-    from urllib import quote
-    from urllib import quote_plus
+    from urllib import quote  # pragma: no cover
+    from urllib import quote_plus  # pragma: no cover
 
 
 ISO8601_FMT = "%Y%m%dT%H%M%SZ"
@@ -202,10 +202,9 @@ def compute_auth_header(
         hashlib.sha256,
     ).hexdigest()
     # Format Authorization header
-    auth_header = format_auth_header(
+    return format_auth_header(
         access_key,
         scope,
         signed_headers,
         signature,
     )
-    return auth_header

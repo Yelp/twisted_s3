@@ -48,7 +48,7 @@ class S3Client(object):
                 "Region={region}; Bucket={bucket}".format(
                     region=region,
                     bucket=bucket,
-                )
+                ),
             )
 
         hashed_payload = auth.compute_hashed_payload(payload)
@@ -86,9 +86,12 @@ class S3Client(object):
         return fido.fetch(url, method=method, body=payload, headers=headers)
 
     def get(
-        self, path,
-        headers=None, query_params=None,
-        region=None, bucket=None,
+        self,
+        path,
+        headers=None,
+        query_params=None,
+        region=None,
+        bucket=None,
     ):
         """Get an object from S3. See
         http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html
@@ -97,7 +100,7 @@ class S3Client(object):
         client = S3Client(...)
         future = S3Client.get("/test/key")
         key = future.result()
-        print(key.contents)  # prints the object's bytes
+        print(key.body)  # prints the object's bytes
 
         :param path: Object path, e.g. "/logs/2016/file.gz"
         :type path: str
@@ -150,9 +153,14 @@ class S3Client(object):
 
     def list(
         self,
-        prefix=None, limit=None, delimiter=None, continuation_token=None,
-        headers=None, query_params=None,
-        region=None, bucket=None,
+        prefix=None,
+        limit=None,
+        delimiter=None,
+        continuation_token=None,
+        headers=None,
+        query_params=None,
+        region=None,
+        bucket=None,
     ):
         """Get a list of objects in a bucket, filtered by certain criteria. See
         http://docs.aws.amazon.com/AmazonS3/latest/API/v2-RESTBucketGET.html
@@ -212,9 +220,12 @@ class S3Client(object):
         )
 
     def put(
-        self, path, payload,
+        self,
+        path,
+        payload,
         headers=None,
-        region=None, bucket=None,
+        region=None,
+        bucket=None,
     ):
         """Set S3 object at path to payload. See
         http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectPUT.html

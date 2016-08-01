@@ -18,5 +18,5 @@ setup(
         ':python_version!="2.6"': ['twisted >= 14.0.0'],
         ':python_version=="2.6"': ['twisted >= 14.0.0, < 15.5'],
     },
-    version="0.1.0",
+    version='0.2.0',
 )

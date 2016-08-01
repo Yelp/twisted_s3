@@ -1,7 +1,7 @@
-# If there are tools that a developer needs to work on your project.
-# Unit testing tools, mocking frameworks, debuggers, proxies, ...
-# These will be used for tox and other testing environments.
 -e .
-mock
-pytest
-pytz
+
+coverage==4.1
+flake8==2.6.2
+mock==2.0.0
+pytest==2.7.3
+pytz==2016.6.1

@@ -32,7 +32,7 @@ def test_list_response(list_response_xml):
     response = mock_response(list_response_xml)
     list_response = ListResponse(response)
     assert list_response.code == 200
-    assert list_response.contents == list_response_xml
+    assert list_response.body == list_response_xml
     assert list_response.keys == ["path/test/00", "path/test/01"]
     assert list_response.common_prefixes == []
     assert not list_response.is_truncated
@@ -43,7 +43,7 @@ def test_list_response_truncated(truncated_list_response_xml):
     response = mock_response(truncated_list_response_xml)
     list_response = ListResponse(response)
     assert list_response.code == 200
-    assert list_response.contents == truncated_list_response_xml
+    assert list_response.body == truncated_list_response_xml
     assert list_response.keys == ["path/00", "path/01"]
     assert list_response.common_prefixes == ["path/test/", "path/test2/"]
     assert list_response.is_truncated

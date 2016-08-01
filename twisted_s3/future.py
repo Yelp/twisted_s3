@@ -33,6 +33,11 @@ class Future(object):
         """
         result = self.eventual.wait(timeout)
         if result.code >= 300:
-            raise S3ResponseError(result.body)
+            raise S3ResponseError(
+                "S3 returned status code: {code} with body: {body}".format(
+                    code=result.code,
+                    body=result.body,
+                ),
+            )
         else:
             return self.response_class(result)

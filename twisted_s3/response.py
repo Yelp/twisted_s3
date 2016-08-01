@@ -6,7 +6,7 @@ from xml.etree import ElementTree
 class S3Response(object):
     """An object representing an HTTP response from S3. This is for simple
     HTTP responses that don't need extra parsing. The only two attributes it
-    exposes officially are .code (response code) and .contents (response body).
+    exposes officially are .code (response code) and .body (response body).
 
     Unofficially, however, the full HTTP response can be accessed using
     ._response. This will be a `fido.Response` object. You can use this to
@@ -21,7 +21,7 @@ class S3Response(object):
         return self._response.code
 
     @property
-    def contents(self):
+    def body(self):
         """HTTP response body"""
         return self._response.body
 

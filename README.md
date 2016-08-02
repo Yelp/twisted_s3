@@ -1,5 +1,7 @@
 # twisted_s3
 
+[![Build Status](https://travis-ci.org/Yelp/twisted_s3.svg?branch=master)](https://travis-ci.org/Yelp/twisted_s3)
+
 `twisted_s3` provides an asynchronous HTTP client for interacting with AWS S3.
 It is built on the very simple [Fido](https://github.com/Yelp/fido) HTTP client,
 which is in turn based on [Twisted](https://github.com/itamarst/crochet) and

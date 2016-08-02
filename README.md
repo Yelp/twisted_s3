@@ -15,7 +15,7 @@ client = S3Client(access_key, secret_key, region="us-west-2", bucket="my-bucket"
 future = client.get("logs/2016/0001.gz")
 # Work happens in a background thread...
 response = future.result(timeout=2)
-print(response.contents)
+print(response.body)
 ```
 
 And an example of setting an object's value:

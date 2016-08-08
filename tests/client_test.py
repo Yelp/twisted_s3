@@ -124,35 +124,54 @@ def test_make_request_missing_bucket(client):
 
 
 def test_make_request(client, mock_fetch, mock_datetime):
-        client._make_request(
-            method="GET",
-            path="path/001.gz",
-            headers={"header": "blah"},
-            query_params={"start-at": "abc"},
-            payload=b"",
-            region="us-west-2",
-            bucket="my-bucket",
-        )
+    client._make_request(
+        method="GET",
+        path="path/001.gz",
+        headers={"header": "blah"},
+        query_params={"start-at": "abc"},
+        payload=b"",
+        region="us-west-2",
+        bucket="my-bucket",
+    )
 
-        args, kwargs = mock_fetch.call_args
+    args, kwargs = mock_fetch.call_args
 
-        # Check that the URL is correct
-        host = "my-bucket.s3-us-west-2.amazonaws.com"
-        assert args[0] == "http://" + host + "/path/001.gz?start-at=abc"
-        assert len(args) == 1
+    # Check that the URL is correct
+    host = "my-bucket.s3-us-west-2.amazonaws.com"
+    assert args[0] == "http://" + host + "/path/001.gz?start-at=abc"
+    assert len(args) == 1
 
-        # Check that the headers are correct
-        headers = kwargs.pop("headers")
-        # We don't care about the actual values of these headers, as they're
-        # set by auth code that's tested separately
-        for header in ("x-amz-content-sha256", "Authorization"):
-            headers.pop(header)
+    # Check that the headers are correct
+    headers = kwargs.pop("headers")
+    # We don't care about the actual values of these headers, as they're
+    # set by auth code that's tested separately
+    for header in ("x-amz-content-sha256", "Authorization"):
+        headers.pop(header)
 
-        assert headers == {
-            "host": host,
-            "x-amz-date": mock_datetime.utcnow().strftime(auth.ISO8601_FMT),
-            "header": "blah",
-        }
+    assert headers == {
+        "host": host,
+        "x-amz-date": mock_datetime.utcnow().strftime(auth.ISO8601_FMT),
+        "header": "blah",
+    }
 
         # Check the rest of the kwargs are correct
-        assert kwargs == {"method": "GET", "body": b""}
+    assert kwargs == {"method": "GET", "body": b""}
+
+
+def test_make_request_client(client, mock_fetch, mock_datetime):
+    client._make_request(
+        method="GET",
+        path="path/001.gz",
+        headers={"header": "blah"},
+        query_params={"start-at": "abc"},
+        payload=b"",
+        region="us-east-1",
+        bucket="my-bucket",
+    )
+
+    args, kwargs = mock_fetch.call_args
+
+    # Check that the URL is correct
+    host = "my-bucket.s3.amazonaws.com"
+    assert args[0] == "http://" + host + "/path/001.gz?start-at=abc"
+    assert len(args) == 1

@@ -53,10 +53,17 @@ class S3Client(object):
 
         hashed_payload = auth.compute_hashed_payload(payload)
 
-        host = "{bucket}.s3-{region}.amazonaws.com".format(
-            bucket=bucket,
-            region=region
-        )
+        host = ""
+        if region == "us-east-1":
+            host = "{bucket}.s3.amazonaws.com".format(
+                bucket=bucket,
+            )
+        else:
+            host = "{bucket}.s3-{region}.amazonaws.com".format(
+                bucket=bucket,
+                region=region,
+            )
+
         query_string = auth.create_canonical_query_string(query_params)
         if not path.startswith("/"):
             path = "/" + path

@@ -154,7 +154,7 @@ def test_make_request(client, mock_fetch, mock_datetime):
         "header": "blah",
     }
 
-        # Check the rest of the kwargs are correct
+    # Check the rest of the kwargs are correct
     assert kwargs == {"method": "GET", "body": b""}
 
 

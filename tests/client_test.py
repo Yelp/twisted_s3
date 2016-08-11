@@ -4,8 +4,13 @@ import mock
 
 import pytest
 
+import twisted_s3
 from twisted_s3 import auth
 from twisted_s3.client import S3Client
+
+TEST_BUCKET_NAME = 'my-bucket'
+TEST_REGION_NAME = 'region'
+TEST_USEAST_REGION_NAME = 'us-east-1'
 
 
 @pytest.yield_fixture
@@ -130,14 +135,15 @@ def test_make_request(client, mock_fetch, mock_datetime):
         headers={"header": "blah"},
         query_params={"start-at": "abc"},
         payload=b"",
-        region="us-west-2",
-        bucket="my-bucket",
+        region=TEST_REGION_NAME,
+        bucket=TEST_BUCKET_NAME,
     )
 
     args, kwargs = mock_fetch.call_args
 
     # Check that the URL is correct
-    host = "my-bucket.s3-us-west-2.amazonaws.com"
+    host = twisted_s3.client.HOST_TEMPLATE\
+        .format(bucket=TEST_BUCKET_NAME, region=TEST_REGION_NAME)
     assert args[0] == "http://" + host + "/path/001.gz?start-at=abc"
     assert len(args) == 1
 
@@ -165,13 +171,14 @@ def test_make_request_client(client, mock_fetch, mock_datetime):
         headers={"header": "blah"},
         query_params={"start-at": "abc"},
         payload=b"",
-        region="us-east-1",
-        bucket="my-bucket",
+        region=TEST_USEAST_REGION_NAME,
+        bucket=TEST_BUCKET_NAME,
     )
 
     args, kwargs = mock_fetch.call_args
 
     # Check that the URL is correct
-    host = "my-bucket.s3.amazonaws.com"
+    host = twisted_s3.client.US_EAST_TEMPLATE\
+        .format(bucket=TEST_BUCKET_NAME, region=TEST_USEAST_REGION_NAME)
     assert args[0] == "http://" + host + "/path/001.gz?start-at=abc"
     assert len(args) == 1

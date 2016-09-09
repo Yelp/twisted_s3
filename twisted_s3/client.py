@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+import logging
 
 import fido
 
@@ -10,6 +11,11 @@ from twisted_s3.future import Future
 
 US_EAST_TEMPLATE = "{bucket}.s3.amazonaws.com"
 HOST_TEMPLATE = "{bucket}.s3-{region}.amazonaws.com"
+
+# Turn down default logging in twisted. Ideally this would be fixed upstream,
+# but that ticket has been open for 7 years:
+# http://twistedmatrix.com/trac/ticket/4021
+logging.getLogger('twisted').setLevel(logging.CRITICAL)
 
 
 class S3Client(object):

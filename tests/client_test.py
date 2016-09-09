@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+import logging
 import mock
 
 import pytest
@@ -182,3 +183,16 @@ def test_make_request_client(client, mock_fetch, mock_datetime):
         .format(bucket=TEST_BUCKET_NAME, region=TEST_USEAST_REGION_NAME)
     assert args[0] == "http://" + host + "/path/001.gz?start-at=abc"
     assert len(args) == 1
+
+
+def test_no_noisy_logging(capsys):
+    # Ensures that even if basic logging in set up, we don't see noisy
+    # twisted log lines
+    logging.basicConfig(level=logging.INFO)
+    client = S3Client('fake_key', 'fake_secret', region='region', bucket='bucket')
+    # This will fail because it can't resolve DNS for 'region' and 'bucket',
+    # but that's okay because it'll be enough to get twisted to log some stuff.
+    with pytest.raises(Exception):
+        client.get('/path/001.gz').result()
+    _, err = capsys.readouterr()
+    assert 'twisted:Starting factory' not in err
